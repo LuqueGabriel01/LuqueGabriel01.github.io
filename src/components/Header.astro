@@ -1,0 +1,137 @@
+---
+import { Menu, X } from '@lucide/astro';
+
+const items = [
+  { n: '01', name: 'Inicio', href: '#home' },
+  { n: '02', name: 'Stack', href: '#about' },
+  { n: '03', name: 'Proyectos', href: '#projects' },
+  { n: '04', name: 'Contacto', href: '#contact' },
+];
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-60 border-b border-transparent bg-transparent transition-colors duration-300"
+>
+  <nav class="flex items-center justify-between px-6 py-6 sm:px-10">
+    <a href="#home" class="text-sm font-semibold uppercase tracking-[0.2em] text-white">
+      Gabriel Luque
+    </a>
+
+    <button
+      id="menu-btn"
+      aria-label="abrir menú"
+      aria-expanded="false"
+      class="relative flex h-10 w-10 items-center justify-center text-white"
+    >
+      <span id="icon-menu" class="transition-opacity duration-200">
+        <Menu size={26} />
+      </span>
+      <span id="icon-close" class="absolute opacity-0 transition-opacity duration-200">
+        <X size={26} />
+      </span>
+    </button>
+  </nav>
+</header>
+
+<div
+  id="menu-overlay"
+  class="pointer-events-none fixed inset-0 z-50 flex flex-col justify-between bg-[#0B1120] px-6 py-24 opacity-0 transition-opacity duration-500 sm:px-10"
+>
+  <ul class="flex flex-col gap-2">
+    {items.map((item, i) => (
+      <li class="menu-item overflow-hidden" style={`transition-delay: ${i * 60}ms`}>
+        <a
+          href={item.href}
+          class="menu-link flex items-baseline gap-4 py-3 text-4xl font-bold uppercase tracking-tight text-white transition-colors duration-300 hover:text-emerald-400 sm:text-6xl"
+        >
+          <span class="text-sm font-mono font-normal text-slate-500">{item.n}</span>
+          {item.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div class="flex flex-col gap-1 text-sm text-slate-400 sm:flex-row sm:justify-between">
+    <span>luquegabrielcv@gmail.com</span>
+    <div class="flex gap-6">
+      <a
+        href="https://github.com/LuqueGabriel01"
+        target="_blank"
+        rel="noopener"
+        class="hover:text-emerald-400"
+      >
+        GitHub
+      </a>
+      <a
+        href="https://linkedin.com/in/luque-gabriel"
+        target="_blank"
+        rel="noopener"
+        class="hover:text-emerald-400"
+      >
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .menu-item {
+    transform: translateY(24px);
+    opacity: 0;
+    transition:
+      transform 0.5s ease,
+      opacity 0.5s ease;
+  }
+  #menu-overlay.is-open .menu-item {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  function initHeader() {
+    const header = document.getElementById('site-header');
+    const btn = document.getElementById('menu-btn');
+    const overlay = document.getElementById('menu-overlay');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+
+    if (!btn || !overlay) return;
+
+    function setOpen(open: boolean) {
+      if (!overlay) return;
+      overlay.classList.toggle('opacity-0', !open);
+      overlay.classList.toggle('pointer-events-none', !open);
+      overlay.classList.toggle('is-open', open);
+      btn?.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('overflow-hidden', open);
+
+      iconMenu?.classList.toggle('opacity-0', open);
+      iconClose?.classList.toggle('opacity-0', !open);
+    }
+
+    btn.addEventListener('click', () => {
+      const isOpen = overlay.classList.contains('is-open');
+      setOpen(!isOpen);
+    });
+
+    overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+    function updateHeaderBg() {
+      if (!header) return;
+      const scrolled = window.scrollY > 20;
+      header.classList.toggle('bg-[#0B1120]/80', scrolled);
+      header.classList.toggle('backdrop-blur-md', scrolled);
+      header.classList.toggle('border-slate-800', scrolled);
+      header.classList.toggle('bg-transparent', !scrolled);
+      header.classList.toggle('border-transparent', !scrolled);
+    }
+
+    updateHeaderBg();
+    window.addEventListener('scroll', updateHeaderBg, { passive: true });
+  }
+
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
+</script>
