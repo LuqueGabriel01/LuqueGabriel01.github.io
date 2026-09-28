@@ -2,10 +2,10 @@
 import { Menu, X } from '@lucide/astro';
 
 const items = [
-  { n: '01', name: 'Inicio', href: '#home' },
-  { n: '02', name: 'Stack', href: '#about' },
-  { n: '03', name: 'Proyectos', href: '#projects' },
-  { n: '04', name: 'Contacto', href: '#contact' },
+  { n: '01', key: 'home', name: 'Inicio', href: '#home' },
+  { n: '02', key: 'stack', name: 'Stack', href: '#stack' },
+  { n: '03', key: 'projects', name: 'Proyectos', href: '#projects' },
+  { n: '04', key: 'contact', name: 'Contacto', href: '#contact' },
 ];
 ---
 
@@ -18,19 +18,35 @@ const items = [
       Gabriel Luque
     </a>
 
-    <button
-      id="menu-btn"
-      aria-label="abrir menú"
-      aria-expanded="false"
-      class="relative flex h-10 w-10 items-center justify-center text-white"
-    >
-      <span id="icon-menu" class="transition-opacity duration-200">
-        <Menu size={26} />
-      </span>
-      <span id="icon-close" class="absolute opacity-0 transition-opacity duration-200">
-        <X size={26} />
-      </span>
-    </button>
+    <div class="flex items-center gap-6">
+      <div
+        id="lang-switch"
+        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-slate-400"
+      >
+        <button type="button" class="lang-btn" data-lang="es">
+          ES
+        </button>
+        <span aria-hidden="true">/</span>
+        <button type="button" class="lang-btn" data-lang="en">
+          EN
+        </button>
+      </div>
+
+      <button
+        id="menu-btn"
+        data-i18n-attr="aria-label:header.menuOpenAriaLabel"
+        aria-label="abrir menú"
+        aria-expanded="false"
+        class="relative flex h-10 w-10 items-center justify-center text-white"
+      >
+        <span id="icon-menu" class="transition-opacity duration-200">
+          <Menu size={26} />
+        </span>
+        <span id="icon-close" class="absolute opacity-0 transition-opacity duration-200">
+          <X size={26} />
+        </span>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -46,7 +62,7 @@ const items = [
           class="menu-link flex items-baseline gap-4 py-3 text-4xl font-bold uppercase tracking-tight text-white transition-colors duration-300 hover:text-emerald-400 sm:text-6xl"
         >
           <span class="text-sm font-mono font-normal text-slate-500">{item.n}</span>
-          {item.name}
+          <span data-i18n={`nav.${item.key}`}>{item.name}</span>
         </a>
       </li>
     ))}
@@ -64,7 +80,7 @@ const items = [
         GitHub
       </a>
       <a
-        href="https://linkedin.com/in/luque-gabriel"
+        href="https://www.linkedin.com/in/luque-gabriel/"
         target="_blank"
         rel="noopener"
         class="hover:text-emerald-400"
@@ -87,9 +103,24 @@ const items = [
     transform: translateY(0);
     opacity: 1;
   }
+
+  .lang-btn {
+    padding: 0.125rem 0.25rem;
+    transition: color 0.3s ease;
+  }
+  .lang-btn:hover {
+    color: white;
+  }
+  .lang-btn--active {
+    color: white;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 </style>
 
 <script>
+  import { initLanguageSwitcher } from '../i18n/language';
+
   function initHeader() {
     const header = document.getElementById('site-header');
     const btn = document.getElementById('menu-btn');
@@ -132,6 +163,11 @@ const items = [
     window.addEventListener('scroll', updateHeaderBg, { passive: true });
   }
 
-  initHeader();
-  document.addEventListener('astro:page-load', initHeader);
+  function init() {
+    initHeader();
+    initLanguageSwitcher();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
