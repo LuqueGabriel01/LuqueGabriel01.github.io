@@ -1,5 +1,6 @@
 ---
-// src/components/Projects.astro
+import { ChevronDown } from '@lucide/astro';
+
 const projects = [
   {
     n: '01',
@@ -7,6 +8,8 @@ const projects = [
     name: 'Inntry',
     subtitle: 'Plataforma de reservas de hoteles',
     repoLabel: 'HotelReservationApp',
+    status: null,
+    role: null,
     description:
       'Plataforma de reservas hoteleras construida como un conjunto de microservicios Spring Boot detrás de un gateway único. Los huéspedes buscan disponibilidad, reservan y cancelan habitaciones, y reciben un email en cada paso; el panel de administración gestiona hoteles, habitaciones, precios y fotos por separado.',
     highlights: [
@@ -49,6 +52,8 @@ const projects = [
     name: 'MenuFlow',
     subtitle: 'Gestión de pedidos para restaurantes vía QR',
     repoLabel: 'menuFlow',
+    status: null,
+    role: null,
     description:
       'Monolito Spring Boot para digitalizar la operativa de un restaurante: cada mesa genera un código QR que abre una sesión de pedido, con carta multi-idioma, gestión de pedidos y facturación, y actualizaciones en tiempo real por WebSocket.',
     highlights: [
@@ -62,6 +67,91 @@ const projects = [
     links: [
       { key: 'repo', label: 'Repositorio', href: 'https://github.com/LuqueGabriel01/menuFlow' },
       { key: 'apiDocs', label: 'API Docs', href: null },
+    ],
+  },
+  {
+    n: '03',
+    i18nKey: 'chat',
+    name: 'Chat Backend',
+    subtitle: 'Backend de chat en tiempo real',
+    repoLabel: 'spring-boot-chat-backend',
+    status: null,
+    role: null,
+    description:
+      'Backend de chat en tiempo real e independiente del frontend: difunde los mensajes a todos los clientes conectados, muestra el indicador de "escribiendo" y envía el historial reciente al conectarse.',
+    highlights: [
+      'Contrato de mensajería documentado: destinos y topics fijos con payloads tipados y un ejemplo de cliente en el README',
+      'Historial publicado en un topic privado por cliente, con el id del cliente validado mediante un patrón estricto',
+      'El servidor fija el id y la fecha de cada mensaje y solo persiste mensajes reales, no los eventos de entrada',
+      'Configurable por entorno (orígenes permitidos, tamaño del historial) y despliegue con Docker Compose con MongoDB persistente',
+      'Tests con JUnit 5 y Mockito y health check con Spring Actuator',
+    ],
+    stack: [
+      'Java 21',
+      'Spring Boot',
+      'WebSocket',
+      'STOMP',
+      'MongoDB',
+      'Docker',
+      'JUnit 5',
+      'Mockito',
+    ],
+    links: [
+      {
+        key: 'repo',
+        label: 'Repositorio',
+        href: 'https://github.com/LuqueGabriel01/spring-boot-chat-backend',
+      },
+    ],
+  },
+  {
+    n: '04',
+    i18nKey: 'fleetcontrol',
+    name: 'FleetControl',
+    subtitle: 'Plataforma de gestión de flotas',
+    repoLabel: 'Equipo-01-Proyecto-Bytes-Colaborativos',
+    status: 'En desarrollo',
+    role: {
+      title: 'Mi rol: coordinación del equipo y estándares de ingeniería',
+      items: [
+        'Flujo de Git: dev para integración y main para versiones estables, una rama por tarea con el nombre tipo/número-issue-descripción, sin commits directos y con al menos una aprobación de alguien distinto al autor',
+        'Convenciones: Conventional Commits, plantilla de PR (trabajo realizado, archivos cambiados, notas para probarlo) y reglas de Javadoc, todo recogido en un acuerdo de trabajo del equipo',
+        'Control de calidad: Spotless, Checkstyle (estilo Google) y PMD en cada cambio, además de checks de CI de calidad de código y builds de Docker en las PR a dev y main',
+        'Organización: cada miembro es responsable de un microservicio completo (código, tests y documentación); definí la estructura del proyecto, el seguimiento de issues y los pasos de onboarding, además de un AGENTS.md para que los asistentes de IA sigan las mismas reglas',
+      ],
+    },
+    description:
+      'Proyecto en equipo desarrollado en un sprint Scrum de 2 semanas: backend de gestión de flotas con 9 microservicios (vehículos, conductores, rutas, mantenimiento, combustible, alertas y un panel ejecutivo). Lanzamiento previsto a mediados de octubre de 2026.',
+    highlights: [
+      'Autenticación centralizada: ms-auth emite el JWT y cada servicio de dominio lo valida; las llamadas entre servicios (OpenFeign) se autentican con una clave interna',
+      'Gateway único con enrutamiento y rate limiting',
+      'Resiliencia con Resilience4j en las llamadas entre servicios',
+      'Esquema versionado en PostgreSQL con migraciones Flyway',
+      'Funciona sin APIs externas: un seeder genera datos de demostración reproducibles (semilla e histórico configurables) al arrancar',
+    ],
+    stack: [
+      'Java 17',
+      'Spring Boot',
+      'Microservicios',
+      'Spring Cloud Gateway',
+      'Spring Security',
+      'JWT',
+      'PostgreSQL',
+      'Flyway',
+      'OpenFeign',
+      'Resilience4j',
+      'Testcontainers',
+      'Checkstyle',
+      'PMD',
+      'Spotless',
+      'Docker',
+    ],
+    links: [
+      {
+        key: 'repo',
+        label: 'Repositorio',
+        href: 'https://github.com/fredymcfly/Equipo-01-Proyecto-Bytes-Colaborativos',
+      },
     ],
   },
 ];
@@ -95,7 +185,6 @@ const projects = [
           class="reveal grid gap-8 bg-[#0B1120] p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-12 lg:p-10"
           style={`transition-delay: ${i * 100}ms;`}
         >
-          <!-- Columna izquierda: identidad + stack + links -->
           <div>
             <div class="flex items-center gap-3">
               <span class="font-mono text-xs text-slate-600">{project.n}</span>
@@ -112,6 +201,12 @@ const projects = [
             >
               {project.subtitle}
             </p>
+            {project.status && (
+              <p class="mt-3 inline-flex items-center gap-2 border border-emerald-500/40 px-2.5 py-1 font-mono text-xs uppercase tracking-wide text-emerald-400">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                <span data-i18n="projects.status.inDevelopment">{project.status}</span>
+              </p>
+            )}
 
             <ul class="mt-6 flex flex-wrap gap-2">
               {project.stack.map((tech) => (
@@ -140,7 +235,6 @@ const projects = [
             </div>
           </div>
 
-          <!-- Columna derecha: descripción + highlights -->
           <div class="border-t border-slate-800 pt-6 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
             <p
               class="text-sm leading-relaxed text-slate-400 sm:text-base"
@@ -148,6 +242,28 @@ const projects = [
             >
               {project.description}
             </p>
+
+            {project.role && (
+              <details class="group mt-6 border border-slate-800">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-emerald-400 transition-colors hover:bg-slate-900 [&::-webkit-details-marker]:hidden">
+                  <span data-i18n={`projects.${project.i18nKey}.roleTitle`}>
+                    {project.role.title}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    class="shrink-0 transition-transform duration-300 group-open:rotate-180"
+                  />
+                </summary>
+                <ul class="flex flex-col gap-3 border-t border-slate-800 px-4 py-4">
+                  {project.role.items.map((item, ri) => (
+                    <li class="flex gap-3 text-sm leading-relaxed text-slate-400">
+                      <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></span>
+                      <span data-i18n={`projects.${project.i18nKey}.roleItems.${ri}`}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
 
             <ul class="mt-6 flex flex-col gap-3">
               {project.highlights.map((point, hi) => (

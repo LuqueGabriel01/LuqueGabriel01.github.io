@@ -7,6 +7,7 @@ export const translations = {
       stack: 'Stack',
       projects: 'Proyectos',
       contact: 'Contacto',
+      cv: 'CV',
     },
     hero: {
       descriptionHtml:
@@ -66,11 +67,107 @@ export const translations = {
           'WebSockets para reflejar el estado de pedidos y mesas en tiempo real',
         ],
       },
+      chat: {
+        subtitle: 'Backend de chat en tiempo real',
+        description:
+          'Backend de chat en tiempo real e independiente del frontend: difunde los mensajes a todos los clientes conectados, muestra el indicador de "escribiendo" y envía el historial reciente al conectarse.',
+        highlights: [
+          'Contrato de mensajería documentado: destinos y topics fijos con payloads tipados y un ejemplo de cliente en el README',
+          'Historial publicado en un topic privado por cliente, con el id del cliente validado mediante un patrón estricto',
+          'El servidor fija el id y la fecha de cada mensaje y solo persiste mensajes reales, no los eventos de entrada',
+          'Configurable por entorno (orígenes permitidos, tamaño del historial) y despliegue con Docker Compose con MongoDB persistente',
+          'Tests con JUnit 5 y Mockito y health check con Spring Actuator',
+        ],
+      },
+      fleetcontrol: {
+        subtitle: 'Plataforma de gestión de flotas',
+        description:
+          'Proyecto en equipo desarrollado en un sprint Scrum de 2 semanas: backend de gestión de flotas con 9 microservicios (vehículos, conductores, rutas, mantenimiento, combustible, alertas y un panel ejecutivo). Lanzamiento previsto a mediados de octubre de 2026.',
+        roleTitle: 'Mi rol: coordinación del equipo y estándares de ingeniería',
+        roleItems: [
+          'Flujo de Git: dev para integración y main para versiones estables, una rama por tarea con el nombre tipo/número-issue-descripción, sin commits directos y con al menos una aprobación de alguien distinto al autor',
+          'Convenciones: Conventional Commits, plantilla de PR (trabajo realizado, archivos cambiados, notas para probarlo) y reglas de Javadoc, todo recogido en un acuerdo de trabajo del equipo',
+          'Control de calidad: Spotless, Checkstyle (estilo Google) y PMD en cada cambio, además de checks de CI de calidad de código y builds de Docker en las PR a dev y main',
+          'Organización: cada miembro es responsable de un microservicio completo (código, tests y documentación); definí la estructura del proyecto, el seguimiento de issues y los pasos de onboarding, además de un AGENTS.md para que los asistentes de IA sigan las mismas reglas',
+        ],
+        highlights: [
+          'Autenticación centralizada: ms-auth emite el JWT y cada servicio de dominio lo valida; las llamadas entre servicios (OpenFeign) se autentican con una clave interna',
+          'Gateway único con enrutamiento y rate limiting',
+          'Resiliencia con Resilience4j en las llamadas entre servicios',
+          'Esquema versionado en PostgreSQL con migraciones Flyway',
+          'Funciona sin APIs externas: un seeder genera datos de demostración reproducibles (semilla e histórico configurables) al arrancar',
+        ],
+      },
+      status: {
+        inDevelopment: 'En desarrollo',
+      },
     },
     contact: {
       label: 'Contacto',
       location: 'Madrid, España',
       availability: 'Disponible para trabajar',
+    },
+    cv: {
+      label: 'Currículum',
+      download: 'Descargar PDF',
+      role: 'Desarrollador backend junior',
+      locationLabel: 'Ubicación',
+      locationValue: 'Madrid, España',
+      summaryHtml:
+        'Desarrollador backend junior enfocado en <span class="text-white">Java</span> y <span class="text-white">Spring Boot</span>, con experiencia práctica en <span class="text-white">JPA/Hibernate</span>, Spring Security y autenticación mediante <span class="text-white">JWT</span> y <span class="text-white">OAuth 2.0</span>. He diseñado e implementado una plataforma de reservas hoteleras basada en una arquitectura de <span class="text-white">microservicios</span>, con autenticación mediante <span class="text-white">cookies HttpOnly</span>, comunicación asíncrona con <span class="text-white">Kafka</span> y pipelines de <span class="text-white">CI/CD</span> mediante <span class="text-white">GitHub Actions</span>. Cuento además con experiencia en testing con <span class="text-white">JUnit 5</span> y <span class="text-white">Mockito</span>, contenerización con <span class="text-white">Docker</span> y conocimientos de frontend con Angular, TypeScript y Tailwind CSS.',
+      sections: {
+        experience: 'Experiencia',
+        projects: 'Proyectos',
+        education: 'Datos académicos',
+        languages: 'Idiomas',
+        more: 'Más información',
+      },
+      experience: {
+        role: 'Desarrollador backend - Prácticas',
+        period: 'Febrero 2025 - Junio 2025',
+        introHtml:
+          'Desarrollo backend utilizando el CMS <span class="text-white">Strapi v5</span> con <span class="text-white">TypeScript</span>. Entre las tareas realizadas:',
+        items: [
+          'Implementación de lifecycles, <span class="text-white">middlewares</span>, rutas, controladores y servicios personalizados.',
+          'Desarrollo de un sistema de notificaciones mediante <span class="text-white">WebSockets</span> a través de un middleware.',
+          'Documentación técnica de los archivos y funcionalidades modificadas.',
+          'Creación de types para estructurar y tipar los datos en TypeScript.',
+        ],
+      },
+      projects: {
+        hotel: {
+          subtitle: 'Plataforma de reservas',
+          descriptionHtml:
+            'Plataforma de reservas hoteleras con <span class="text-white">microservicios</span> en <span class="text-white">Spring Boot 4.0.6</span> y <span class="text-white">Java 21</span>: gateway centralizado, <span class="text-white">autenticación JWT</span> vía cookies HttpOnly, mensajería asíncrona con Kafka y un servicio de recomendaciones con IA (Gemini). CI/CD con <span class="text-white">GitHub Actions</span> y despliegue con <span class="text-white">Docker</span> Compose.',
+        },
+      },
+      education: [
+        {
+          title: '42 Madrid',
+          detail: 'Campus Telefónica, Madrid',
+          period: 'Incorporación octubre 2026',
+        },
+        {
+          title: 'Lemoncode',
+          detail: 'Especialización en Full Stack Development',
+          period: 'Septiembre 2025 - actualidad',
+        },
+        {
+          title: 'Universae – Instituto Superior de Formación Profesional',
+          detail: 'Técnico Superior en Desarrollo de Aplicaciones Web (DAW)',
+          period: 'Septiembre 2023 - junio 2025',
+        },
+        {
+          title: 'Universae – Instituto Superior de Formación Profesional',
+          detail: 'Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)',
+          period: 'Septiembre 2023 - junio 2025',
+        },
+      ],
+      languages: {
+        english: 'Inglés',
+        englishLevel: 'B1',
+      },
+      more: ['Carné de conducir', 'Disponibilidad total', 'Trabajo en equipo', 'Compromiso'],
     },
     footer: {
       role: 'Backend Developer',
@@ -87,6 +184,7 @@ export const translations = {
       stack: 'Stack',
       projects: 'Projects',
       contact: 'Contact',
+      cv: 'CV',
     },
     hero: {
       descriptionHtml:
@@ -146,11 +244,107 @@ export const translations = {
           'WebSockets to reflect order and table status in real time',
         ],
       },
+      chat: {
+        subtitle: 'Real-time chat backend',
+        description:
+          'Frontend-agnostic real-time chat backend: it broadcasts messages to every connected client, shows a "typing" indicator and sends the recent message history when a client joins.',
+        highlights: [
+          'Documented messaging contract: fixed destinations and topics with typed payloads, plus a client usage example in the README',
+          'History published on a private per-client topic, with the client id validated against a strict pattern',
+          "The server sets each message's id and timestamp and persists only real messages, not join events",
+          'Configurable by environment (allowed origins, history size) and deployed with Docker Compose with persistent MongoDB',
+          'Tests with JUnit 5 and Mockito and a health check via Spring Actuator',
+        ],
+      },
+      fleetcontrol: {
+        subtitle: 'Fleet management platform',
+        description:
+          'Team project built in a 2-week Scrum sprint: a fleet management backend with 9 microservices (vehicles, drivers, routes, maintenance, fuel, alerts and an executive dashboard). Release expected mid-October 2026.',
+        roleTitle: 'My role: team coordination and engineering standards',
+        roleItems: [
+          'Git workflow: dev for integration and main for stable releases, one branch per task named type/issue-number-description, no direct commits and at least one approval from someone other than the author',
+          'Conventions: Conventional Commits, a PR template (work performed, files changed, notes on how to test) and Javadoc rules, all documented in a team working agreement',
+          'Quality gates: Spotless, Checkstyle (Google style) and PMD on every change, plus CI checks for code quality and Docker builds on PRs to dev and main',
+          'Organization: each member owns a full microservice (code, tests and docs); I defined the project structure, issue tracking and onboarding steps, plus an AGENTS.md so AI assistants follow the same rules',
+        ],
+        highlights: [
+          'Centralized auth: ms-auth issues the JWT and every domain service validates it; calls between services (OpenFeign) are authenticated with an internal key',
+          'Single gateway with routing and rate limiting',
+          'Resilience4j on inter-service calls',
+          'Versioned PostgreSQL schema with Flyway migrations',
+          'Runs with no external APIs: a seeder generates reproducible demo data (configurable seed and history length) on startup',
+        ],
+      },
+      status: {
+        inDevelopment: 'In development',
+      },
     },
     contact: {
       label: 'Contact',
       location: 'Madrid, Spain',
       availability: 'Available for work',
+    },
+    cv: {
+      label: 'Resume',
+      download: 'Download PDF',
+      role: 'Junior backend developer',
+      locationLabel: 'Location',
+      locationValue: 'Madrid, Spain',
+      summaryHtml:
+        'Junior backend developer focused on <span class="text-white">Java</span> and <span class="text-white">Spring Boot</span>, with hands-on experience in <span class="text-white">JPA/Hibernate</span>, Spring Security and authentication using <span class="text-white">JWT</span> and <span class="text-white">OAuth 2.0</span>. I designed and built a hotel booking platform based on a <span class="text-white">microservices</span> architecture, with <span class="text-white">HttpOnly cookie</span> authentication, asynchronous communication through <span class="text-white">Kafka</span> and <span class="text-white">CI/CD</span> pipelines with <span class="text-white">GitHub Actions</span>. I also have experience in testing with <span class="text-white">JUnit 5</span> and <span class="text-white">Mockito</span>, containerization with <span class="text-white">Docker</span> and frontend knowledge with Angular, TypeScript and Tailwind CSS.',
+      sections: {
+        experience: 'Experience',
+        projects: 'Projects',
+        education: 'Education',
+        languages: 'Languages',
+        more: 'Additional information',
+      },
+      experience: {
+        role: 'Backend developer - Internship',
+        period: 'February 2025 - June 2025',
+        introHtml:
+          'Backend development using the <span class="text-white">Strapi v5</span> CMS with <span class="text-white">TypeScript</span>. Tasks included:',
+        items: [
+          'Implementation of lifecycles, <span class="text-white">middlewares</span>, routes, controllers and custom services.',
+          'Development of a notification system using <span class="text-white">WebSockets</span> through a middleware.',
+          'Technical documentation of the modified files and features.',
+          'Creation of types to structure and type data in TypeScript.',
+        ],
+      },
+      projects: {
+        hotel: {
+          subtitle: 'Booking platform',
+          descriptionHtml:
+            'Hotel booking platform with <span class="text-white">microservices</span> built on <span class="text-white">Spring Boot 4.0.6</span> and <span class="text-white">Java 21</span>: centralized gateway, <span class="text-white">JWT authentication</span> via HttpOnly cookies, asynchronous messaging with Kafka and an AI-powered recommendations service (Gemini). CI/CD with <span class="text-white">GitHub Actions</span> and deployment with <span class="text-white">Docker</span> Compose.',
+        },
+      },
+      education: [
+        {
+          title: '42 Madrid',
+          detail: 'Telefónica Campus, Madrid',
+          period: 'Joining October 2026',
+        },
+        {
+          title: 'Lemoncode',
+          detail: 'Full Stack Development specialization',
+          period: 'September 2025 - present',
+        },
+        {
+          title: 'Universae – Higher Vocational Training Institute',
+          detail: 'Higher Technician in Web Application Development (DAW)',
+          period: 'September 2023 - June 2025',
+        },
+        {
+          title: 'Universae – Higher Vocational Training Institute',
+          detail: 'Higher Technician in Multiplatform Application Development (DAM)',
+          period: 'September 2023 - June 2025',
+        },
+      ],
+      languages: {
+        english: 'English',
+        englishLevel: 'B1',
+      },
+      more: ['Driving licence', 'Full availability', 'Teamwork', 'Commitment'],
     },
     footer: {
       role: 'Backend Developer',
