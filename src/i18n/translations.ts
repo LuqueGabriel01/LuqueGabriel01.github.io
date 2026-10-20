@@ -82,20 +82,24 @@ export const translations = {
       fleetcontrol: {
         subtitle: 'Plataforma de gestión de flotas',
         description:
-          'Proyecto en equipo desarrollado en un sprint Scrum de 2 semanas: backend de gestión de flotas con 9 microservicios (vehículos, conductores, rutas, mantenimiento, combustible, alertas y un panel ejecutivo). Lanzamiento previsto a mediados de octubre de 2026.',
-        roleTitle: 'Mi rol: coordinación del equipo y estándares de ingeniería',
+          'Proyecto en equipo desarrollado en un sprint Scrum de 2 semanas: backend de gestión de flotas con 9 microservicios (gateway, autenticación, vehículos, conductores, rutas, mantenimiento, combustible, alertas y un panel ejecutivo). Se levanta con un solo docker compose up y genera sus propios datos de demostración.',
+        roleTitle:
+          'Mi rol: coordinación del equipo, estándares de ingeniería y servicios principales',
         roleItems: [
           'Flujo de Git: dev para integración y main para versiones estables, una rama por tarea con el nombre tipo/número-issue-descripción, sin commits directos y con al menos una aprobación de alguien distinto al autor',
-          'Convenciones: Conventional Commits, plantilla de PR (trabajo realizado, archivos cambiados, notas para probarlo) y reglas de Javadoc, todo recogido en un acuerdo de trabajo del equipo',
-          'Control de calidad: Spotless, Checkstyle (estilo Google) y PMD en cada cambio, además de checks de CI de calidad de código y builds de Docker en las PR a dev y main',
-          'Organización: cada miembro es responsable de un microservicio completo (código, tests y documentación); definí la estructura del proyecto, el seguimiento de issues y los pasos de onboarding, además de un AGENTS.md para que los asistentes de IA sigan las mismas reglas',
+          'Convenciones: Conventional Commits, un formato común de descripción de PR (trabajo realizado, archivos cambiados, notas para probarlo) y reglas de Javadoc y de migraciones Flyway, todo recogido en un CONTRIBUTING.md',
+          'Control de calidad: Spotless, Checkstyle (estilo Google) y PMD, con workflows de GitHub Actions de calidad de código, commit lint y builds de Docker en las PR a dev y main',
+          'Organización: cada miembro es responsable de un microservicio completo (código, tests y documentación); definí la arquitectura en capas y la estructura del proyecto, revisé el código del equipo y añadí un AGENTS.md para que los asistentes de IA sigan las mismas reglas',
+          'Microservicios propios: construí ms-auth, ms-gateway, ms-maintenance, ms-dashboard y ms-alerts, terminé ms-drivers y ms-vehicles, y mejoré ms-routes y ms-fuel (seeders de datos de demostración, seguridad y resiliencia)',
         ],
         highlights: [
-          'Autenticación centralizada: ms-auth emite el JWT y cada servicio de dominio lo valida; las llamadas entre servicios (OpenFeign) se autentican con una clave interna',
-          'Gateway único con enrutamiento y rate limiting',
-          'Resiliencia con Resilience4j en las llamadas entre servicios',
-          'Esquema versionado en PostgreSQL con migraciones Flyway',
+          'Autenticación centralizada: ms-auth emite el JWT y cada servicio de dominio lo valida; las llamadas entre servicios (OpenFeign) se autentican con una clave interna que el gateway elimina de las peticiones externas',
+          'Gateway único con enrutamiento, rate limiting por IP (Caffeine), trazado con request ID y health check en paralelo de los servicios',
+          'Resiliencia con Resilience4j (circuit breakers) en las llamadas entre servicios',
+          'Contrato de errores común: todos los servicios traducen sus excepciones al mismo formato de respuesta',
+          'Esquema versionado en PostgreSQL con migraciones Flyway y JPA en modo validate',
           'Funciona sin APIs externas: un seeder genera datos de demostración reproducibles (semilla e histórico configurables) al arrancar',
+          'Tests unitarios con JUnit 5 y Mockito, tests de integración con Testcontainers (PostgreSQL) y Swagger UI en cada servicio',
         ],
       },
       status: {
@@ -259,20 +263,23 @@ export const translations = {
       fleetcontrol: {
         subtitle: 'Fleet management platform',
         description:
-          'Team project built in a 2-week Scrum sprint: a fleet management backend with 9 microservices (vehicles, drivers, routes, maintenance, fuel, alerts and an executive dashboard). Release expected mid-October 2026.',
-        roleTitle: 'My role: team coordination and engineering standards',
+          'Team project built in a 2-week Scrum sprint: a fleet management backend with 9 microservices (gateway, auth, vehicles, drivers, routes, maintenance, fuel, alerts and an executive dashboard). It runs with a single docker compose up and generates its own demo data.',
+        roleTitle: 'My role: team coordination, engineering standards and core services',
         roleItems: [
           'Git workflow: dev for integration and main for stable releases, one branch per task named type/issue-number-description, no direct commits and at least one approval from someone other than the author',
-          'Conventions: Conventional Commits, a PR template (work performed, files changed, notes on how to test) and Javadoc rules, all documented in a team working agreement',
-          'Quality gates: Spotless, Checkstyle (Google style) and PMD on every change, plus CI checks for code quality and Docker builds on PRs to dev and main',
-          'Organization: each member owns a full microservice (code, tests and docs); I defined the project structure, issue tracking and onboarding steps, plus an AGENTS.md so AI assistants follow the same rules',
+          'Conventions: Conventional Commits, a common PR description format (work performed, files changed, notes on how to test) and Javadoc and Flyway migration rules, all documented in a CONTRIBUTING.md',
+          'Quality gates: Spotless, Checkstyle (Google style) and PMD, with GitHub Actions workflows for code quality, commit lint and Docker builds on PRs to dev and main',
+          "Organization: each member owns a full microservice (code, tests and docs); I defined the layered architecture and project structure, reviewed the team's code and added an AGENTS.md so AI assistants follow the same rules",
+          'My own microservices: I built ms-auth, ms-gateway, ms-maintenance, ms-dashboard and ms-alerts, finished ms-drivers and ms-vehicles, and improved ms-routes and ms-fuel (demo data seeders, security and resilience)',
         ],
         highlights: [
-          'Centralized auth: ms-auth issues the JWT and every domain service validates it; calls between services (OpenFeign) are authenticated with an internal key',
-          'Single gateway with routing and rate limiting',
-          'Resilience4j on inter-service calls',
-          'Versioned PostgreSQL schema with Flyway migrations',
+          'Centralized auth: ms-auth issues the JWT and every domain service validates it; calls between services (OpenFeign) are authenticated with an internal key that the gateway strips from external requests',
+          'Single gateway with routing, per-IP rate limiting (Caffeine), request ID tracing and a parallel health check of downstream services',
+          'Resilience4j circuit breakers on inter-service calls',
+          'Common error contract: every service maps its exceptions to the same response shape',
+          'Versioned PostgreSQL schema with Flyway migrations and JPA in validate mode',
           'Runs with no external APIs: a seeder generates reproducible demo data (configurable seed and history length) on startup',
+          'Unit tests with JUnit 5 and Mockito, integration tests with Testcontainers (PostgreSQL) and Swagger UI on every service',
         ],
       },
       status: {
